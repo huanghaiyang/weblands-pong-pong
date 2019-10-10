@@ -1,6 +1,3 @@
-enum ObjectContentType {
-  None,
-  Image,
-  Frame,
-  PlugIn
-}
+enum ObjectContentType { None, Image, Frame, PlugIn }
+
+enum LoadCompletionType { Finish, Cancel }

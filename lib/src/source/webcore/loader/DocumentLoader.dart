@@ -1,10 +1,14 @@
+import 'package:weblands_pong_pong/src/source/webcore/dom/DeviceOrientationOrMotionPermissionState.dart';
 import 'package:weblands_pong_pong/src/source/webcore/loader/DocumentWriter.dart';
 import 'package:weblands_pong_pong/src/source/webcore/loader/FrameLoader.dart';
+import 'package:weblands_pong_pong/src/source/webcore/loader/FrameLoaderTypes.dart';
+import 'package:weblands_pong_pong/src/source/webcore/loader/LoadTiming.dart';
 import 'package:weblands_pong_pong/src/source/webcore/loader/NavigationAction.dart';
 import 'package:weblands_pong_pong/src/source/webcore/loader/ResourceLoader.dart';
 import 'package:weblands_pong_pong/src/source/webcore/loader/ResourceLoaderOptions.dart';
 import 'package:weblands_pong_pong/src/source/webcore/loader/SubresourceLoader.dart';
 import 'package:weblands_pong_pong/src/source/webcore/loader/SubstituteData.dart';
+import 'package:weblands_pong_pong/src/source/webcore/loader/appcache/ApplicationCacheHost.dart';
 import 'package:weblands_pong_pong/src/source/webcore/loader/archive/Archive.dart';
 import 'package:weblands_pong_pong/src/source/webcore/loader/archive/ArchiveResource.dart';
 import 'package:weblands_pong_pong/src/source/webcore/loader/cache/CachedResourceLoader.dart';
@@ -16,6 +20,25 @@ import 'package:weblands_pong_pong/src/source/webcore/platform/network/ResourceR
 import 'package:weblands_pong_pong/src/source/webcore/platform/text/StringWithDirection.dart';
 import 'package:weblands_pong_pong/src/source/wtf/wtf/SchedulePair.dart';
 import 'package:weblands_pong_pong/src/source/wtf/wtf/URL.dart';
+
+enum AutoplayPolicy { Default, Allow, AllowWithoutSound, Deny }
+
+enum AutoplayQuirk {
+  SynthesizedPauseEvents,
+  InheritedUserGestures,
+  ArbitraryUserGestures,
+  PerDocumentAutoplayBehavior,
+}
+
+enum PopUpPolicy { Default, Allow, Block }
+
+enum MetaViewportPolicy { Default, Respect, Ignore }
+
+enum MediaSourcePolicy { Default, Disable, Enable }
+
+enum SimulatedMouseEventsDispatchPolicy { Default, Allow, Deny }
+
+enum LegacyOverflowScrollingTouchPolicy { Default, Disable, Enable }
 
 abstract class DocumentLoader {
   static DocumentLoader create(ResourceRequest request, SubstituteData data) {}
@@ -166,4 +189,96 @@ abstract class DocumentLoader {
   void startLoadingMainResource();
 
   void cancelMainResourceLoad();
+
+  void willContinueMainResourceLoadAfterRedirect(ResourceRequest request);
+
+  bool get isLoadingMainResource;
+
+  bool get isLoadingMultipartContent;
+
+  void stopLoadingPlugIns();
+
+  void stopLoadingSubresources();
+
+  void stopLoadingAfterXFrameOptionsOrContentSecurityPolicyDenied(num identifier, ResourceResponse response);
+
+  bool get userContentExtensionsEnabled;
+
+  set userContentExtensionsEnabled(bool userContentExtensionsEnabled);
+
+  DeviceOrientatPonOrMotionPermissionState get deviceOrientationOrMotionPermissionState;
+
+  set deviceOrientationOrMotionPermissionState(DeviceOrientatPonOrMotionPermissionState state);
+
+  AutoplayPolicy get autoplayPolicy;
+
+  set autoplayPolicy(AutoplayPolicy policy);
+
+  String get customUserAgent;
+
+  set customUserAgent(String customUserAgent);
+
+  String get customJavaScriptUserAgentAsSiteSpecificQuirks;
+
+  set customJavaScriptUserAgentAsSiteSpecificQuirks(String customUserAgent);
+
+  String get customNavigatorPlatform;
+
+  set customNavigatorPlatform(String platform);
+
+  Set<AutoplayQuirk> get allowedAutoplayQuirks;
+
+  set allowedAutoplayQuirks(Set<AutoplayQuirk> quirks);
+
+  PopUpPolicy get popUpPolicy;
+
+  set popUpPolicy(PopUpPolicy policy);
+
+  MetaViewportPolicy get metaViewportPolicy;
+
+  set metaViewportPolicy(MetaViewportPolicy policy);
+
+  MediaSourcePolicy get mediaSourcePolicy;
+
+  set mediaSourcePolicy(MediaSourcePolicy policy);
+
+  SimulatedMouseEventsDispatchPolicy get simulatedMouseEventsDispatchPolicy;
+
+  set simulatedMouseEventsDispatchPolicy(SimulatedMouseEventsDispatchPolicy policy);
+
+  LegacyOverflowScrollingTouchPolicy get legacyOverflowScrollingTouchPolicy;
+
+  set legacyOverflowScrollingTouchPolicy(LegacyOverflowScrollingTouchPolicy policy);
+
+  void addSubresourceLoader(ResourceLoader loader);
+
+  void removeSubresourceLoader(LoadCompletionType type, ResourceLoader loader);
+
+  void addPlugInStreamLoader(ResourceLoader loader);
+
+  void removePluginInStreamLoader(ResourceLoader loader);
+
+  void subresourceLoaderFinishedLoadingOnePart(ResourceLoader loader);
+
+  set deferMainResourceDataLoad(bool defer);
+
+  bool get deferMainResourceDataLoad;
+
+  void didTellClientAbortLoad(String url);
+
+  bool get haveToldClientAbortLoad;
+
+  void recordMemoryCacheLoadForFutureClientNotification(ResourceRequest request);
+
+  void takeMemoryCacheLoadsForClientNotification(List<ResourceRequest> requests);
+
+  LoadTiming get timing;
+
+  void resetTiming();
+
+  void commitData(List<int> bytes, int length);
+
+  ApplicationCacheHost get applicationCacheHost;
+
+  ApplicationCacheHost get applicationCacheHostUnlessBeingDestroyed;
 }
