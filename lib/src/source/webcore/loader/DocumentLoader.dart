@@ -1,6 +1,8 @@
 import 'package:weblands_pong_pong/src/source/webcore/loader/DocumentWriter.dart';
 import 'package:weblands_pong_pong/src/source/webcore/loader/FrameLoader.dart';
+import 'package:weblands_pong_pong/src/source/webcore/loader/NavigationAction.dart';
 import 'package:weblands_pong_pong/src/source/webcore/loader/ResourceLoader.dart';
+import 'package:weblands_pong_pong/src/source/webcore/loader/ResourceLoaderOptions.dart';
 import 'package:weblands_pong_pong/src/source/webcore/loader/SubresourceLoader.dart';
 import 'package:weblands_pong_pong/src/source/webcore/loader/SubstituteData.dart';
 import 'package:weblands_pong_pong/src/source/webcore/loader/archive/Archive.dart';
@@ -95,7 +97,7 @@ abstract class DocumentLoader {
 
   void addAllArchiveResources(Archive archive);
 
-  void addArchiveResource(Archive archive);
+  void addArchiveResource(ArchiveResource resource);
 
   Archive popArchiveForSubFrame(String frame, URL url);
 
@@ -108,4 +110,60 @@ abstract class DocumentLoader {
   void scheduleCannotShowURLError(ResourceLoader loader);
 
   ArchiveResource archiveResourceForURL(URL url);
+
+  ArchiveResource get mainResource;
+
+  ArchiveResource subresource(URL url);
+
+  List<ArchiveResource> get subresources;
+
+  bool isSubstituteLoadingPending(ResourceLoader loader);
+
+  void cancelPendingSubstituteLoad(ResourceLoader loader);
+
+  void addResponse(ResourceResponse response);
+
+  List<ResourceResponse> get responses;
+
+  NavigationAction get triggerAction;
+
+  set triggerAction(NavigationAction navigationAction);
+
+  set overrideEncoding(String enconding);
+
+  set lastCheckedRequest(ResourceRequest request);
+
+  ResourceRequest get lastCheckedRequest;
+
+  void stopRecordingResponses();
+
+  StringWithDirection get title;
+
+  URL get urlForHistory;
+
+  bool get urlForHistoryReflectsFailure;
+
+  String get clientRedirectSourceForHistory;
+
+  String get clientRedirectDestinationForHistory;
+
+  set clientRedirectSourceForHistory(String clientRedirectSourceForHistory);
+
+  String get serverRedirectSourceForHistory;
+
+  String get serverRedirectDestinationForHistory;
+
+  bool get didCreateGlobalHistoryEntry;
+
+  disCreateGlobalHistoryEntry(bool disCreateGlobalHistoryEntry);
+
+  bool get subresourceLoadersArePageCacheAcceptable;
+
+  set defersLoading(bool defersLoading);
+
+  set mainResourceDataBufferingPolicy(DataBufferingPolicy policy);
+
+  void startLoadingMainResource();
+
+  void cancelMainResourceLoad();
 }
