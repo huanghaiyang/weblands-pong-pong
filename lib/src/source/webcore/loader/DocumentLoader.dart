@@ -31,8 +31,9 @@ import 'package:weblands_pong_pong/src/source/webcore/workers/service/ServiceWor
 import 'package:weblands_pong_pong/src/source/wtf/wtf/CompletionHandler.dart';
 import 'package:weblands_pong_pong/src/source/wtf/wtf/SchedulePair.dart';
 import 'package:weblands_pong_pong/src/source/wtf/wtf/URL.dart';
+import 'package:weblands_pong_pong/src/source/wtf/wtf/RunLoopTimer.dart';
 
-typedef ServiceWorkerRegistrationDataHandler = void Function(ServiceWorkerRegistrationData data);
+typedef ServiceWorkerRegistrationDataHandler = void Function([ServiceWorkerRegistrationData data]);
 
 typedef ResourceRequestHandler = void Function(ResourceRequest request);
 
@@ -399,4 +400,27 @@ abstract class DocumentLoader {
   bool tryLoadingSubstituteData();
 
   bool tryLoadingRedirectRequestFromApplicationCache(ResourceRequest request);
+
+  void restartLoadingDueToServiceWorkerRegistrationChange(ResourceRequest request, [ServiceWorkerRegistrationData data]);
+  
+  void continueAfterContentPolicy(PolicyAction action);
+
+  void stopLoadingForPolicyChange();
+
+  ResourceError interruptForPolicyChangeError();
+
+  void handleSubstituteDataLoadNow();
+
+  bool startDataLoadTimer();
+
+  void deliverSubstituteResourcesAfterDelay();
+
+  void substituteResourceDeliveryTimerFired();
+
+  void clearMainResource();
+
+  void cancelPolicyCheckIfNeeded();
+
+  void becomeMainResourceClient();
+  
 }
