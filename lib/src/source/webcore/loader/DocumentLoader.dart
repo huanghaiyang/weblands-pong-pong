@@ -1,4 +1,9 @@
+import 'package:weblands_pong_pong/src/source/webcore/css/StyleSheetContents.dart';
 import 'package:weblands_pong_pong/src/source/webcore/dom/DeviceOrientationOrMotionPermissionState.dart';
+import 'package:weblands_pong_pong/src/source/webcore/dom/Document.dart';
+import 'package:weblands_pong_pong/src/source/webcore/loader/ApplicationManifestLoader.dart';
+import 'package:weblands_pong_pong/src/source/webcore/loader/ContentFilter.dart';
+import 'package:weblands_pong_pong/src/source/webcore/loader/CustomHeaderFields.dart';
 import 'package:weblands_pong_pong/src/source/webcore/loader/DocumentWriter.dart';
 import 'package:weblands_pong_pong/src/source/webcore/loader/FrameLoader.dart';
 import 'package:weblands_pong_pong/src/source/webcore/loader/FrameLoaderTypes.dart';
@@ -11,24 +16,31 @@ import 'package:weblands_pong_pong/src/source/webcore/loader/SubstituteData.dart
 import 'package:weblands_pong_pong/src/source/webcore/loader/appcache/ApplicationCacheHost.dart';
 import 'package:weblands_pong_pong/src/source/webcore/loader/archive/Archive.dart';
 import 'package:weblands_pong_pong/src/source/webcore/loader/archive/ArchiveResource.dart';
+import 'package:weblands_pong_pong/src/source/webcore/loader/cache/CachedResource.dart';
 import 'package:weblands_pong_pong/src/source/webcore/loader/cache/CachedResourceLoader.dart';
+import 'package:weblands_pong_pong/src/source/webcore/loader/icon/IconLoader.dart';
 import 'package:weblands_pong_pong/src/source/webcore/page/Frame.dart';
+import 'package:weblands_pong_pong/src/source/webcore/platform/LinkIcon.dart';
 import 'package:weblands_pong_pong/src/source/webcore/platform/SharedBuffer.dart';
 import 'package:weblands_pong_pong/src/source/webcore/platform/network/ResourceError.dart';
 import 'package:weblands_pong_pong/src/source/webcore/platform/network/ResourceRequest.dart';
 import 'package:weblands_pong_pong/src/source/webcore/platform/network/ResourceResponse.dart';
+import 'package:weblands_pong_pong/src/source/webcore/platform/network/ios/PreviewConverter.dart';
 import 'package:weblands_pong_pong/src/source/webcore/platform/text/StringWithDirection.dart';
+import 'package:weblands_pong_pong/src/source/webcore/workers/service/ServiceWorkerRegistrationData.dart';
+import 'package:weblands_pong_pong/src/source/wtf/wtf/CompletionHandler.dart';
 import 'package:weblands_pong_pong/src/source/wtf/wtf/SchedulePair.dart';
 import 'package:weblands_pong_pong/src/source/wtf/wtf/URL.dart';
 
+typedef ServiceWorkerRegistrationDataHandler = void Function(ServiceWorkerRegistrationData data);
+
+typedef ResourceRequestHandler = void Function(ResourceRequest request);
+
+typedef NoopHandler = void Function();
+
 enum AutoplayPolicy { Default, Allow, AllowWithoutSound, Deny }
 
-enum AutoplayQuirk {
-  SynthesizedPauseEvents,
-  InheritedUserGestures,
-  ArbitraryUserGestures,
-  PerDocumentAutoplayBehavior,
-}
+enum AutoplayQuirk { SynthesizedPauseEvents, InheritedUserGestures, ArbitraryUserGestures, PerDocumentAutoplayBehavior }
 
 enum PopUpPolicy { Default, Allow, Block }
 
@@ -42,6 +54,8 @@ enum LegacyOverflowScrollingTouchPolicy { Default, Disable, Enable }
 
 abstract class DocumentLoader {
   static DocumentLoader create(ResourceRequest request, SubstituteData data) {}
+
+  factory DocumentLoader(ResourceRequest request, SubstituteData data) {}
 
   void attachToFrame(Frame frame);
 
@@ -281,4 +295,108 @@ abstract class DocumentLoader {
   ApplicationCacheHost get applicationCacheHost;
 
   ApplicationCacheHost get applicationCacheHostUnlessBeingDestroyed;
+
+  void checkLoadComplete();
+
+  URL get documentURL;
+
+  PreviewConverter get previewConverter;
+
+  set previewConverter(PreviewConverter converter);
+
+  void addPendingContentExtensionSheet(String identifier, StyleSheetContents sheetContents);
+
+  ShouldOpenExternalURLsPolicy get shouldOpenExternalURLsPolicyToPropagate;
+
+  set shouldOpenExternalURLsPolicy(ShouldOpenExternalURLsPolicy policy);
+
+  ContentFilter get contentFilter;
+
+  bool get isAlwaysOnLoggingAllowed;
+
+  void startIconLogging();
+
+  void didGetLoadDecisionForIcon(bool decision, int loadIdentifier, int newCallbackID);
+
+  void finishLoadingIcon(IconLoader loader, SharedBuffer buffer);
+
+  List<LinkIcon> get linkIcons;
+
+  int loadApplicationManifest();
+
+  void finishedLoadingApplicationManifest(ApplicationManifestLoader loader);
+
+  void setCustomHeaderFields(List<CustomHeaderFields> fields);
+
+  set allowWebArchiveForMainFrame(bool allowWebArchiveForMainFrame);
+
+  bool get allowWebArchiveForMainFrame;
+
+  set downloadAttribute(String attribute);
+
+  String get downloadAttribute;
+
+  void applyPoliciesToSettings();
+
+  set allowContentChangeObserverQuirk(bool allow);
+
+  bool get allowContentChangeObserverQuirk;
+
+  Document get document;
+
+  // service worker
+  void matchRegistration(URL url, CompletionHandler<ServiceWorkerRegistrationDataHandler> handler);
+
+  void registerTemporaryServiceWorkerClient(URL url);
+
+  void unregisterTemporaryServiceWorkerClient();
+
+  void loadMainResource(ResourceRequest request);
+
+  set request(ResourceRequest request);
+
+  void commitIfReady();
+
+  set documentError(ResourceError error);
+
+  void commitLoad(List<int> chars, int length);
+
+  void clearMainResourceLoader();
+
+  void setupForReplace();
+
+  void maybeFinishLoadingMultipartContent();
+
+  bool maybeCreateArchive();
+
+  void clearArchiveResources();
+
+  void willSendRequest(ResourceRequest request, ResourceResponse response, CompletionHandler<ResourceRequestHandler> handler);
+
+  void finishedLoading();
+
+  set mainReceivedError(ResourceError error);
+
+  void redirectReceived(
+      CachedResource resource, ResourceRequest request, ResourceResponse response, CompletionHandler<ResourceRequestHandler> handler);
+
+  void responseReceived(CachedResource resource, ResourceResponse response, CompletionHandler<NoopHandler> handler);
+
+  // void responseReceived(ResourceResponse response, CompletionHandler<NoopHandler> handler);
+
+  void dataReceived(CachedResource resource, List<int> data, int length);
+
+  void notifyFinished(CachedResource resource);
+
+  bool maybeLoadEmpty();
+
+  bool get isMultipartReplacingLoad;
+
+  bool isPostOrRedirectAfterPost(ResourceRequest request, ResourceResponse response);
+
+  bool tryLoadingRequestFromApplicationCache();
+
+  bool tryLoadingSubstituteData();
+
+  bool tryLoadingRedirectRequestFromApplicationCache(ResourceRequest request);
 }
