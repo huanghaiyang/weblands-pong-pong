@@ -1,0 +1,4 @@
+enum DataPayloadType {
+  DataPayloadWholeResource,
+  DataPayloadBytes
+}
