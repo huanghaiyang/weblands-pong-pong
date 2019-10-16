@@ -2,6 +2,7 @@ import 'package:weblands_pong_pong/src/source/webcore/bindings/SerializedScriptV
 import 'package:weblands_pong_pong/src/source/webcore/history/HistoryItem.dart';
 import 'package:weblands_pong_pong/src/source/webcore/loader/FrameLoaderTypes.dart';
 import 'package:weblands_pong_pong/src/source/webcore/loader/ShouldTreatAsContinuingLoad.dart';
+import 'package:weblands_pong_pong/src/source/webcore/page/Frame.dart';
 import 'package:weblands_pong_pong/src/source/webcore/platform/text/StringWithDirection.dart';
 
 enum HistoryUpdateType { UpdateAll, UpdateAllExceptBackForwardList }
@@ -59,7 +60,34 @@ abstract class HistoryController {
 
   set defersLoading(bool defersLoading);
 
-  bool get shouldStopLoadingForHistoryItem;
+  bool shouldStopLoadingForHistoryItem(HistoryItem historyItem);
 
   void goToItem(HistoryItem historyItem, FrameLoadType frameLoadType, ShouldTreatAsContinuingLoad shouldTreatAsContinuingLoad);
+
+  void initializeItem(HistoryItem historyItem);
+
+  HistoryItem createItem();
+
+  HistoryItem createItemTree(Frame targetFrame, bool clipAtTarget);
+
+  void recursiveSetProvisionItem(HistoryItem historyItem, HistoryItem item);
+
+  void recursiveGoToItem(
+      HistoryItem historyItem, HistoryItem item, FrameLoadType frameLoadType, ShouldTreatAsContinuingLoad shouldTreatAsContinuingLoad);
+
+  bool isReplaceLoadTypeWithProvistionalItem(FrameLoadType frameLoadType);
+
+  bool isReloadTypeWithProvistionalItem(FrameLoadType frameLoadType);
+
+  void recursiveUpdateForCommit();
+
+  void recursiveUpdateForSameDocumentNavigation();
+
+  bool itemsAreClones(HistoryItem historyItem, HistoryItem item);
+
+  bool currentFramesMatchItem(HistoryItem historyItem);
+
+  void updateBackFrowardListClippedAtTarget(bool doClip);
+
+  void updateCurrentItem();
 }
