@@ -14,7 +14,7 @@ abstract class ContentFilter {
 
   bool continueAfterResponseReceived(ResourceResponse response);
 
-  bool continueAfterDataReceived(String data, int length);
+  bool continueAfterDataReceived(List<int> data, int length);
 
   bool continueAfterNotifyFinished(CachedRawResource resource);
 

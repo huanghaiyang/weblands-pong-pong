@@ -49,7 +49,7 @@ abstract class ApplicationCacheHost {
 
   void maybeLoadMainResourceForResponse(ResourceRequest resourceRequest, ResourceResponse resourceResponse);
 
-  void mainResourceDataReceived(String data, int length, int encodingDataLength, bool allAtOnce);
+  void mainResourceDataReceived(List<int> data, int length, int encodingDataLength, bool allAtOnce);
 
   void finishedLoadingMainResource();
 

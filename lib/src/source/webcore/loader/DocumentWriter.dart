@@ -8,7 +8,7 @@ abstract class DocumentWriter {
 
   bool begin([URL url, bool dispatchWindowObjectAvailable = false, Document ownerDocument]);
 
-  void addDataSynchronously(String data);
+  void addDataSynchronously(List<int> data);
 
   void end();
 

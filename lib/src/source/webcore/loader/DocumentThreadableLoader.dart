@@ -49,7 +49,7 @@ abstract class DocumentThreadableLoader {
 
   void didReceiveResponse(int identifier, ResourceResponse resourceResponse);
 
-  void didReceivedData(int identifier, String data, int dataLength);
+  void didReceivedData(int identifier, List<int> data, int dataLength);
 
   void didFinishLoading(int identifier);
 
