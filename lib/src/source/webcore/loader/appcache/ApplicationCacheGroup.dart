@@ -12,6 +12,8 @@ enum ApplicationCacheUpdateOption { ApplicationCacheUpdateWithBrowsingContext, A
 
 enum UpdateStatus { Idle, Checking, Downloading }
 
+enum CompletionType { None, NoUpdate, Failure, Completed }
+
 abstract class ApplicationCacheGroup {
   static ApplicationCache cacheForMainRequest(ResourceRequest resourceRequest, DocumentLoader documentLoader) {}
 
