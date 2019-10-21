@@ -29,7 +29,8 @@ abstract class ResourceTiming {
 
 class _ResourceTiming implements ResourceTiming {
   static ResourceTiming fromCache(
-      URL url, String initiator, LoadTiming loadTiming, ResourceResponse resourceResponse, SecurityOrigin securityOrigin) {}
+      URL url, String initiator, LoadTiming loadTiming, ResourceResponse resourceResponse, SecurityOrigin securityOrigin) {
+  }
 
   @override
   void overrideInitiatorName(String name) {}

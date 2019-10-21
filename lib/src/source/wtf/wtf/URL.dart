@@ -1,1 +1,3 @@
-abstract class URL {}
+abstract class URL {
+  bool get protocolIsInHTTPFamily;
+}
