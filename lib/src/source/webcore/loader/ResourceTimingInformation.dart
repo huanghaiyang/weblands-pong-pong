@@ -3,6 +3,7 @@ import 'package:weblands_pong_pong/src/source/webcore/loader/ResourceLoaderOptio
 import 'package:weblands_pong_pong/src/source/webcore/loader/ResourceTiming.dart';
 import 'package:weblands_pong_pong/src/source/webcore/loader/cache/CachedResource.dart';
 import 'package:weblands_pong_pong/src/source/webcore/loader/cache/CachedResourceHandle.dart';
+import 'package:weblands_pong_pong/src/source/webcore/page/DOMWindow.dart';
 import 'package:weblands_pong_pong/src/source/webcore/page/Frame.dart';
 
 enum AlreadyAdded { NotYetAdded, Added }
@@ -46,7 +47,7 @@ class _ResourceTimingInformation implements ResourceTimingInformation {
   @override
   void addResourceTiming(CachedResource cachedResource, Document document, ResourceTiming resourceTiming) {
     if (!shouldAddResourceTiming(cachedResource)) {
-      return ;
+      return;
     }
     InitiatorInfo initiatorInfo = initiatorMap_[cachedResource];
     if (initiatorInfo == null) {
@@ -56,8 +57,18 @@ class _ResourceTimingInformation implements ResourceTimingInformation {
       return;
     }
     Document initiatorDocument = document;
-    if (cachedResource.type == Type.MainResource) {
-      
+    if (cachedResource.type == Type.MainResource && document.frame?.loader?.shouldReportResourceTimingToParentFrame) {
+      initiatorDocument = document.parentDocument;
     }
+    if (initiatorDocument == null) {
+      return;
+    }
+    DOMWindow initiatorWindow = initiatorDocument.domWindow;
+    if (initiatorWindow == null) {
+      return;
+    }
+    resourceTiming.overrideInitiatorName(initiatorInfo.name);
+    initiatorWindow.performance.addResourceTiming(resourceTiming);
+    initiatorInfo.added = AlreadyAdded.Added;
   }
 }

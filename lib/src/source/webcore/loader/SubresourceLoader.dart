@@ -1,1 +1,3 @@
-abstract class SubresourceLoader {}
+abstract class SubresourceLoader {
+  bool get shouldReportResourceTimingToParentFrame;
+}
