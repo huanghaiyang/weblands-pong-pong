@@ -44,6 +44,8 @@ abstract class CachedResource {
   bool get wasCanceled;
 
   ResourceLoaderOptions get options;
+
+  Type get type;
 }
 
 class _CachedResource implements CachedResource {
@@ -91,5 +93,10 @@ class _CachedResource implements CachedResource {
   @override
   ResourceLoaderOptions get options {
     return options_;
+  }
+
+  @override
+  Type get type {
+    return type_;
   }
 }

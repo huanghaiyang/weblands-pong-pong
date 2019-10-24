@@ -1,3 +1,4 @@
+import 'package:weblands_pong_pong/src/source/webcore/dom/Document.dart';
 import 'package:weblands_pong_pong/src/source/webcore/loader/ResourceLoaderOptions.dart';
 import 'package:weblands_pong_pong/src/source/webcore/loader/ResourceTiming.dart';
 import 'package:weblands_pong_pong/src/source/webcore/loader/cache/CachedResource.dart';
@@ -15,7 +16,7 @@ class InitiatorInfo {
 abstract class ResourceTimingInformation {
   static bool shouldAddResourceTiming(CachedResource cachedResource) => _ResourceTimingInformation.shouldAddResourceTiming(cachedResource);
 
-  void addResourceTiming(CachedResource cachedResource, ResourceTiming resourceTiming);
+  void addResourceTiming(CachedResource cachedResource, Document document, ResourceTiming resourceTiming);
 
   void storeResourceTimingInitiatorInformation(CachedResourceHandle<CachedResource> cachedResourceHandle, String info, Frame frame);
 }
@@ -35,7 +36,7 @@ class _ResourceTimingInformation implements ResourceTimingInformation {
     }
     if (cachedResource.options.loadedFromOpaqueSource == LoadedFromOpaqueSource.Yes) {
       return false;
-    }¬
+    }
     return true;
   }
 
@@ -43,9 +44,20 @@ class _ResourceTimingInformation implements ResourceTimingInformation {
   void storeResourceTimingInitiatorInformation(CachedResourceHandle<CachedResource> cachedResourceHandle, String info, Frame frame) {}
 
   @override
-  void addResourceTiming(CachedResource cachedResource, ResourceTiming resourceTiming) {
+  void addResourceTiming(CachedResource cachedResource, Document document, ResourceTiming resourceTiming) {
     if (!shouldAddResourceTiming(cachedResource)) {
       return ;
+    }
+    InitiatorInfo initiatorInfo = initiatorMap_[cachedResource];
+    if (initiatorInfo == null) {
+      return;
+    }
+    if (initiatorInfo.added == AlreadyAdded.Added) {
+      return;
+    }
+    Document initiatorDocument = document;
+    if (cachedResource.type == Type.MainResource) {
+      
     }
   }
 }
