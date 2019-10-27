@@ -12,6 +12,8 @@ class InitiatorInfo {
   String name;
 
   AlreadyAdded added;
+
+  InitiatorInfo(this.name, this.added);
 }
 
 abstract class ResourceTimingInformation {
@@ -42,7 +44,18 @@ class _ResourceTimingInformation implements ResourceTimingInformation {
   }
 
   @override
-  void storeResourceTimingInitiatorInformation(CachedResourceHandle<CachedResource> cachedResourceHandle, String info, Frame frame) {}
+  void storeResourceTimingInitiatorInformation(
+      CachedResourceHandle<CachedResource> cachedResourceHandle, String initiatorName, Frame frame) {
+    if (cachedResourceHandle.resource.type == Type.MainResource) {
+      if (frame.ownerElement != null) {
+        InitiatorInfo info = InitiatorInfo(frame.ownerElement.localName, AlreadyAdded.NotYetAdded);
+        initiatorMap_[cachedResourceHandle.resource] = info;
+      } else {
+        InitiatorInfo info = InitiatorInfo(initiatorName, AlreadyAdded.NotYetAdded);
+        initiatorMap_[cachedResourceHandle.resource] = info;
+      }
+    }
+  }
 
   @override
   void addResourceTiming(CachedResource cachedResource, Document document, ResourceTiming resourceTiming) {

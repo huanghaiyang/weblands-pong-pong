@@ -1,1 +1,3 @@
-abstract class CachedResourceHandle<T> {}
+abstract class CachedResourceHandle<T> {
+  T get resource;
+}
