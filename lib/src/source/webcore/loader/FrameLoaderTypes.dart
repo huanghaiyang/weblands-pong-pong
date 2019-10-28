@@ -18,3 +18,11 @@ enum FrameLoadType {
   ReloadFromOrigin,
   ReloadExpiredOnly
 }
+
+enum LockHistory { Yes, No }
+
+enum LockBackForwardList { Yes, No }
+
+enum AllowNavigationToInvalidURL { Yes, No }
+
+enum HasIncrecureContent { Yes, No }
