@@ -1,3 +1,4 @@
+import 'package:weblands_pong_pong/src/source/webcore/loader/FrameLoadRequest.dart';
 import 'package:weblands_pong_pong/src/source/webcore/loader/FrameLoaderClient.dart';
 import 'package:weblands_pong_pong/src/source/webcore/loader/HistoryController.dart';
 import 'package:weblands_pong_pong/src/source/webcore/loader/MixedContentChecker.dart';
