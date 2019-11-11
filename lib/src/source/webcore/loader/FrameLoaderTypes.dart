@@ -1,3 +1,6 @@
+import 'package:weblands_pong_pong/src/source/webcore/platform/IPC/Decoder.dart';
+import 'package:weblands_pong_pong/src/source/webcore/platform/IPC/Encoder.dart';
+
 enum ObjectContentType { None, Image, Frame, PlugIn }
 
 enum LoadCompletionType { Finish, Cancel }
@@ -42,3 +45,11 @@ enum ShouldSendReferrer { MaybeSendReferrer, NeverSendReferrer }
 enum ShouldReplaceDocumentIfJavaScriptURL { ReplaceDocumentIfJavaScriptURL, DoNotReplaceDocumentIfJavaScriptURL }
 
 enum WebGLLoadPolicy { WebGLBlockCreation, WebGLAllowCreation, WebGLPendingCreation }
+
+class SystemPreviewInfo {
+  GlobalFrameIdentifier globalFrameID;
+  IntRect previewRect;
+  bool isPreview;
+  void encode(Encoder encoder) {}
+  SystemPreviewInfo decode(Decoder decoder) {}
+}
