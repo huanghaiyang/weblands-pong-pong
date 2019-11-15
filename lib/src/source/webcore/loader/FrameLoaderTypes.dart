@@ -1,5 +1,7 @@
+import 'package:weblands_pong_pong/src/source/webcore/page/GlobalFrameIdentifier.dart';
 import 'package:weblands_pong_pong/src/source/webcore/platform/IPC/Decoder.dart';
 import 'package:weblands_pong_pong/src/source/webcore/platform/IPC/Encoder.dart';
+import 'package:weblands_pong_pong/src/source/webcore/platform/graphics/intRect.dart';
 
 enum ObjectContentType { None, Image, Frame, PlugIn }
 
@@ -28,7 +30,7 @@ enum LockBackForwardList { Yes, No }
 
 enum AllowNavigationToInvalidURL { Yes, No }
 
-enum HasIncrecureContent { Yes, No }
+enum HasInsecureContent { Yes, No }
 
 enum NewFrameOpenerPolicy { Suppress, Allow }
 
@@ -36,7 +38,7 @@ enum NavigationType { LinkClicked, FormSubmitted, BackForward, Reload, FormREsub
 
 enum InitiatedByMainFrame { Yes, Unknown }
 
-enum ClearProvisionalItemPolicy { PreventDuringUnloadEvents, AlwaysStopLoading }
+enum ClearProvisionalItemPolicy { ShouldClearProvisionalItem, ShouldNotClearProvisionalItem }
 
 enum UnloadEventPolicy { UnloadEventPolicyNone, UnloadEventPolicyUnloadOnly, UnloadEventPolicyUnloadAndPageHide }
 
@@ -46,10 +48,18 @@ enum ShouldReplaceDocumentIfJavaScriptURL { ReplaceDocumentIfJavaScriptURL, DoNo
 
 enum WebGLLoadPolicy { WebGLBlockCreation, WebGLAllowCreation, WebGLPendingCreation }
 
+enum ReloadOption { ExpiredOnly, FromOrigin, DisableContentBlockers }
+
+enum StopLoadingPolicy { PreventDuringUnloadEvents, AlwaysStopLoading }
+
+enum FrameState { FrameStateProvisional, FrameStateCommittedPage, FrameStateComplete }
+
 class SystemPreviewInfo {
   GlobalFrameIdentifier globalFrameID;
   IntRect previewRect;
   bool isPreview;
+
   void encode(Encoder encoder) {}
+
   SystemPreviewInfo decode(Decoder decoder) {}
 }
