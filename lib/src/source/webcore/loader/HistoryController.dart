@@ -75,9 +75,9 @@ abstract class HistoryController {
   void recursiveGoToItem(
       HistoryItem historyItem, HistoryItem item, FrameLoadType frameLoadType, ShouldTreatAsContinuingLoad shouldTreatAsContinuingLoad);
 
-  bool isReplaceLoadTypeWithProvistionalItem(FrameLoadType frameLoadType);
+  bool isReplaceLoadTypeWithProvisionalItem(FrameLoadType frameLoadType);
 
-  bool isReloadTypeWithProvistionalItem(FrameLoadType frameLoadType);
+  bool isReloadTypeWithProvisionalItem(FrameLoadType frameLoadType);
 
   void recursiveUpdateForCommit();
 
