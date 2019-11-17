@@ -10,7 +10,8 @@ import 'package:weblands_pong_pong/src/source/webcore/platform/network/ResourceR
 import 'package:weblands_pong_pong/src/source/wtf/wtf/URL.dart';
 
 abstract class FetchLoader {
-  factory FetchLoader(FetchLoaderClient fetchLoaderClient, FetchBodyConsumer fetchBodyConsumer) => _FetchLoader(fetchLoaderClient, fetchBodyConsumer);
+  factory FetchLoader(FetchLoaderClient fetchLoaderClient, FetchBodyConsumer fetchBodyConsumer) =>
+      _FetchLoader(fetchLoaderClient, fetchBodyConsumer);
 
   SharedBuffer startStreaming();
 

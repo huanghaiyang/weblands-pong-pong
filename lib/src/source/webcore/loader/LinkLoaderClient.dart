@@ -1,3 +1,1 @@
-abstract class LinkLoaderClient {
-
-}
+abstract class LinkLoaderClient {}

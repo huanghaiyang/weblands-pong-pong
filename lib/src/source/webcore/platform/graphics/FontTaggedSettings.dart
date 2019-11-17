@@ -1,1 +1,1 @@
- abstract class FontTaggedSettings<T> {}
+abstract class FontTaggedSettings<T> {}

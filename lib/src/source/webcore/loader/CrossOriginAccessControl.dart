@@ -27,6 +27,7 @@ bool isValidCrossOriginRedirectURL(URL url) {}
 
 bool passesAccessControlCheck(ResourceResponse response, StoredCredentialsPolicy policy, SecurityOrigin origin, String errorDescription) {}
 
-bool validatePreflightResponse(ResourceRequest request, ResourceResponse response, StoredCredentialsPolicy policy, SecurityOrigin origin, String errorDescription) {}
+bool validatePreflightResponse(
+    ResourceRequest request, ResourceResponse response, StoredCredentialsPolicy policy, SecurityOrigin origin, String errorDescription) {}
 
 ResourceError validateCrossOriginResourcePolicy(SecurityOrigin origin, URL url, ResourceResponse response) {}

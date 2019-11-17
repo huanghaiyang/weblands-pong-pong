@@ -1,3 +1,1 @@
-abstract class Event {
-  
-}
+abstract class Event {}

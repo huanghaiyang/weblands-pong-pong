@@ -1,3 +1,1 @@
-abstract class GlobalFrameIdentifier {
-
-}
+abstract class GlobalFrameIdentifier {}

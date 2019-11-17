@@ -24,15 +24,16 @@ abstract class SubframeLoader {
 
   bool resourceWillUsePlugin(String url, String mimeType);
 
-  bool requestPlugin(
-      HTMLPlugInImageElement htmlPluginInImageElement, URL url, String serviceType, List<String> paramNames, List<String> paramValues, bool useFallback);
+  bool requestPlugin(HTMLPlugInImageElement htmlPluginInImageElement, URL url, String serviceType, List<String> paramNames,
+      List<String> paramValues, bool useFallback);
 
-  Frame loadOrRedirectSubframe(
-      HTMLFrameOwnerElement htmlFrameOwnerElement, URL url, String frameName, LockHistory lockHistory, LockBackForwardList lockBackForwardList);
+  Frame loadOrRedirectSubframe(HTMLFrameOwnerElement htmlFrameOwnerElement, URL url, String frameName, LockHistory lockHistory,
+      LockBackForwardList lockBackForwardList);
 
   Frame loadSubframe(HTMLFrameOwnerElement htmlFrameOwnerElement, URL url, String name, String refrerer);
 
-  bool loadPlugin(HTMLPlugInImageElement htmlPlugInImageElement, URL url, String mimeType, List<String> paramNames, List<String> paramValues, bool useFallback);
+  bool loadPlugin(HTMLPlugInImageElement htmlPlugInImageElement, URL url, String mimeType, List<String> paramNames,
+      List<String> paramValues, bool useFallback);
 
   bool shouldUsePlugin(URL url, String mimeType, bool hasFallback, bool useFallback);
 

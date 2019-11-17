@@ -1,3 +1,1 @@
-abstract class HTMLPlugInElement {
-  
-}
+abstract class HTMLPlugInElement {}
